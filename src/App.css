@@ -1,0 +1,177 @@
+/* ================================= */
+/* PORTFOLIO MAIN LAYOUT */
+/* ================================= */
+
+.portfolio-layout {
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Main content beside sidebar */
+.portfolio-main {
+    margin-left: 260px;
+    min-width: 0;
+    min-height: 100vh;
+
+    background-color: #FFFFFF;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Prevent content from hiding behind navigation */
+section[id] {
+    scroll-margin-top: 20px;
+}
+
+/* ================================= */
+/* MOBILE */
+/* ================================= */
+
+@media (max-width: 768px) {
+
+    /* Sidebar becomes a normal top section */
+    .portfolio-main {
+        margin-left: 0;
+    }
+
+    .home-section {
+        flex-direction: column-reverse;
+    }
+
+    .about-container,
+    .skills-container,
+    .projects-container,
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ================================= */
+/* LIGHT MODE VARIABLES */
+/* ================================= */
+
+:root,
+[data-theme="light"] {
+    --page-bg: #FFFFFF;
+    --card-bg: #F8FAF9;
+    --heading-color: #222222;
+    --text-color: #555555;
+    --muted-color: #777777;
+    --border-color: #E5EBE8;
+    --sidebar-bg: #355F5C;
+    --accent-color: #C79A4B;
+}
+
+/* ================================= */
+/* DARK MODE VARIABLES */
+/* ================================= */
+
+[data-theme="dark"] {
+    --page-bg: #111827;
+    --card-bg: #1F2937;
+    --heading-color: #FFFFFF;
+    --text-color: #E5E7EB;
+    --muted-color: #CBD5E1;
+    --border-color: #374151;
+    --sidebar-bg: #0F172A;
+    --accent-color: #C79A4B;
+}
+
+/* ================================= */
+/* APPLY THEME TO PAGE */
+/* ================================= */
+
+body,
+.portfolio-main {
+    background-color: var(--page-bg);
+    color: var(--text-color);
+}
+
+/* SIDEBAR */
+
+.portfolio-sidebar {
+    background-color: var(--sidebar-bg);
+}
+
+/* CONTENT SECTIONS */
+
+.home-section,
+.services-section,
+.about-section,
+.skills-section,
+.projects-section,
+.experience-section,
+.contact-section {
+    background-color: var(--page-bg);
+}
+
+/* HEADINGS */
+
+.home-name,
+.services-section h2,
+.about-heading h2,
+.skills-heading h2,
+.projects-heading h2,
+.experience-heading h2,
+.contact-heading h2,
+.about-info h3,
+.skills-card h3,
+.project-info h3,
+.timeline-card h4,
+.education-card h4,
+.professional-card h4,
+.contact-card h3 {
+    color: var(--heading-color);
+}
+
+/* PARAGRAPHS */
+
+.home-description,
+.services-description,
+.about-info p,
+.skills-heading p,
+.projects-heading p,
+.experience-heading p,
+.contact-heading p,
+.project-info p,
+.professional-card li {
+    color: var(--text-color);
+}
+
+/* CARDS */
+
+.about-card,
+.skills-card,
+.project-card,
+.timeline-card,
+.education-card,
+.professional-card,
+.contact-card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+/* BADGES */
+
+.skill-badge,
+.project-technologies span {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+/* FOOTER */
+
+.portfolio-footer {
+    background-color: var(--sidebar-bg);
+}
+
+/* FOOTER TEXT */
+
+.portfolio-footer p {
+    color: #FFFFFF;
+}
+

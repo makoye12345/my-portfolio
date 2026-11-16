@@ -1,0 +1,28 @@
+/* FOOTER DESIGN */
+.portfolio-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 15px;
+    padding: 25px 5%;
+
+    /* Dark teal background */
+    background-color: #355F5C;
+    border-top: 3px solid #C79A4B;
+}
+
+/* Footer text */
+.portfolio-footer p {
+    font-size: 13px;
+    color: #FFFFFF;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+    .portfolio-footer {
+        flex-direction: column;
+        text-align: center;
+    }
+}

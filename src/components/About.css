@@ -1,0 +1,108 @@
+/* ================================= */
+/* ABOUT ME SECTION */
+/* ================================= */
+
+.about-section {
+    padding: 45px 5%;
+    background-color: #FFFFFF;
+}
+
+/* Section heading */
+.about-heading {
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.about-heading h2 {
+    font-size: 26px;
+    color: #222222;
+
+    border-left: 4px solid #355F5C;
+    padding-left: 12px;
+
+    margin-bottom: 10px;
+}
+
+.about-heading p {
+    font-size: 14px;
+    color: #777777;
+}
+
+/* About content */
+.about-container {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 35px;
+    align-items: start;
+}
+
+/* Introduction */
+.about-info h3 {
+    font-size: 22px;
+    color: #222222;
+    margin-bottom: 15px;
+}
+
+.about-info p {
+    font-size: 14px;
+    color: #555555;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+/* View Projects button */
+.about-button {
+    display: inline-block;
+    margin-top: 12px;
+
+    padding: 10px 18px;
+    background-color: #355F5C;
+    color: #FFFFFF;
+
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.about-button:hover {
+    background-color: #C79A4B;
+    color: #222222;
+}
+
+/* Information cards */
+.about-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.about-card {
+    padding: 18px;
+    background-color: #F8FAF9;
+
+    border: 1px solid #E5EBE8;
+    border-left: 3px solid #355F5C;
+    border-radius: 5px;
+
+    box-shadow: none;
+}
+
+.about-card h4 {
+    font-size: 16px;
+    color: #222222;
+    margin-bottom: 8px;
+}
+
+.about-card p {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 6px;
+}
+
+/* Responsive design */
+@media (max-width: 900px) {
+    .about-container {
+        grid-template-columns: 1fr;
+    }
+}

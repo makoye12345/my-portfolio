@@ -1,0 +1,139 @@
+/* MAIN SECTION */
+.experience-section {
+    padding: 45px 5%;
+    background-color: #FFFFFF;
+}
+
+/* MAIN HEADING */
+.experience-heading {
+    margin-bottom: 35px;
+}
+
+.experience-heading h2 {
+    font-size: 26px;
+    color: #222222;
+    border-left: 4px solid #355F5C;
+    padding-left: 12px;
+    margin-bottom: 10px;
+}
+
+.experience-heading p {
+    font-size: 14px;
+    color: #777777;
+}
+
+/* EDUCATION AREA */
+.education-area {
+    margin-bottom: 40px;
+}
+
+.education-area h3,
+.professional-area h3 {
+    font-size: 21px;
+    color: #355F5C;
+    margin-bottom: 20px;
+}
+
+/* EDUCATION CARD */
+.education-card {
+    background-color: #F8FAF9;
+    padding: 22px;
+    border-radius: 8px;
+    border-left: 4px solid #C79A4B;
+}
+
+.education-card h4 {
+    margin: 12px 0;
+    color: #222222;
+}
+
+.education-card h5 {
+    color: #355F5C;
+    margin-bottom: 8px;
+}
+
+.education-card p {
+    color: #666666;
+}
+
+/* TWO-COLUMN PROFESSIONAL EXPERIENCE */
+.professional-grid {
+    display: grid;
+
+    /* Two equal columns */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+    align-items: stretch;
+}
+
+/* INDIVIDUAL EXPERIENCE CARD */
+.professional-card {
+    background-color: #F8FAF9;
+    padding: 25px;
+    border-radius: 8px;
+
+    border: 1px solid #E5EBE8;
+    border-top: 4px solid #355F5C;
+
+    min-width: 0;
+}
+
+/* ORGANIZATION */
+.professional-card h4 {
+    font-size: 19px;
+    color: #355F5C;
+    margin-bottom: 15px;
+}
+
+/* DATE */
+.experience-date {
+    display: inline-block;
+    background-color: #E5F0EB;
+    color: #355F5C;
+
+    padding: 7px 12px;
+    border-radius: 5px;
+
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+/* POSITION */
+.professional-card h5 {
+    font-size: 16px;
+    color: #222222;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+/* LOCATION */
+.professional-card p {
+    color: #666666;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* RESPONSIBILITIES */
+.professional-card ul {
+    padding-left: 20px;
+}
+
+.professional-card li {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #555555;
+    margin-bottom: 8px;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+
+    .professional-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .professional-card {
+        padding: 20px;
+    }
+}

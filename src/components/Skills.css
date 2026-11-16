@@ -1,0 +1,90 @@
+/* ================================= */
+/* TECHNICAL SKILLS SECTION */
+/* ================================= */
+
+.skills-section {
+    padding: 45px 5%;
+    background-color: #FFFFFF;
+}
+
+/* Section heading */
+.skills-heading {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.skills-heading h2 {
+    font-size: 26px;
+    color: #222222;
+
+    border-left: 4px solid #355F5C;
+    padding-left: 12px;
+
+    margin-bottom: 10px;
+}
+
+.skills-heading p {
+    font-size: 14px;
+    color: #777777;
+}
+
+/* Skills grid */
+.skills-container {
+    display: grid;
+
+    /* Two cards per row */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+/* Individual skill card */
+.skills-card {
+    padding: 20px;
+
+    background-color: #F8FAF9;
+    border: 1px solid #E5EBE8;
+
+    border-radius: 6px;
+    box-shadow: none;
+
+    transition: transform 0.3s ease;
+}
+
+.skills-card:hover {
+    transform: translateY(-3px);
+    border-color: #355F5C;
+}
+
+/* Category name */
+.skills-card h3 {
+    font-size: 17px;
+    color: #222222;
+    margin-bottom: 15px;
+}
+
+/* Technology badges */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-badge {
+    padding: 7px 11px;
+
+    background-color: #FFFFFF;
+    color: #355F5C;
+
+    border: 1px solid #DCE6E2;
+    border-radius: 4px;
+
+    font-size: 12px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .skills-container {
+        grid-template-columns: 1fr;
+    }
+}
