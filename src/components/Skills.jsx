@@ -1,64 +1,175 @@
-// Import Skills CSS
+// ==========================================
+// REACT HOOKS
+// ==========================================
+
+import { useEffect, useState } from "react";
+
+// Supabase connection
+import { supabase } from "../lib/supabase";
+
+// Existing Skills CSS
 import "./Skills.css";
 
-// Create Skills component
+// ==========================================
+// SKILL CATEGORY ORDER
+// ==========================================
+
+const categoryOrder = [
+    "Frontend Development",
+    "Backend Development",
+    "Databases",
+    "Development Tools"
+];
+
+// ==========================================
+// SKILLS COMPONENT
+// ==========================================
+
 function Skills() {
 
-    // Store skills in a JavaScript array
-    const skills = [
-        {
-            id: 1,
-            category: "Frontend Development",
-            technologies: [
-                "React",
-                "JavaScript",
-                "HTML",
-                "CSS",
-                "Tailwind CSS"
-            ]
-        },
+    // Skills retrieved from Supabase
+    const [skills, setSkills] = useState([]);
 
-        {
-            id: 2,
-            category: "Backend Development",
-            technologies: [
-                "PHP",
-                "Laravel",
-                "Node.js",
-                "Express.js",
-                "REST APIs"
-            ]
-        },
+    // Loading state
+    const [loading, setLoading] = useState(true);
 
-        {
-            id: 3,
-            category: "Databases",
-            technologies: [
-                "MySQL",
-                "MongoDB",
-                "PostgreSQL"
-            ]
-        },
+    // Error state
+    const [error, setError] = useState("");
 
-        {
-            id: 4,
-            category: "Development Tools",
-            technologies: [
-                "Git",
-                "GitHub",
-                "Postman",
-                "VS Code",
-                "npm"
-            ]
+    // ==========================================
+    // FETCH SKILLS FROM SUPABASE
+    // ==========================================
+
+    useEffect(() => {
+
+        let active = true;
+
+        async function loadSkills() {
+
+            try {
+
+                setLoading(true);
+                setError("");
+
+                const {
+                    data,
+                    error: fetchError
+                } = await supabase
+                    .from("portfolio_skills")
+                    .select(
+                        "id, skill_name, category, sort_order"
+                    )
+                    .order("sort_order", {
+                        ascending: true
+                    })
+                    .order("id", {
+                        ascending: true
+                    });
+
+                if (fetchError) {
+                    throw fetchError;
+                }
+
+                if (active) {
+                    setSkills(data || []);
+                }
+
+            } catch (err) {
+
+                console.error(
+                    "Failed to load skills:",
+                    err
+                );
+
+                if (active) {
+
+                    setError(
+                        "Unable to load skills. Please try again."
+                    );
+
+                }
+
+            } finally {
+
+                if (active) {
+                    setLoading(false);
+                }
+
+            }
+
         }
-    ];
+
+        loadSkills();
+
+        return () => {
+            active = false;
+        };
+
+    }, []);
+
+    // ==========================================
+    // GROUP SKILLS BY CATEGORY
+    // ==========================================
+
+    const groupedSkills = skills.reduce(
+        (groups, skill) => {
+
+            const category = skill.category;
+
+            if (!groups[category]) {
+                groups[category] = [];
+            }
+
+            groups[category].push(skill);
+
+            return groups;
+
+        },
+        {}
+    );
+
+    // ==========================================
+    // SORT CATEGORIES
+    // ==========================================
+
+    const categories = Object.keys(groupedSkills).sort(
+        (a, b) => {
+
+            const indexA = categoryOrder.indexOf(a);
+            const indexB = categoryOrder.indexOf(b);
+
+            const orderA =
+                indexA === -1
+                    ? categoryOrder.length
+                    : indexA;
+
+            const orderB =
+                indexB === -1
+                    ? categoryOrder.length
+                    : indexB;
+
+            if (orderA !== orderB) {
+                return orderA - orderB;
+            }
+
+            return a.localeCompare(b);
+
+        }
+    );
+
+    // ==========================================
+    // SKILLS USER INTERFACE
+    // ==========================================
 
     return (
 
-        // SKILLS SECTION
-        <section id="skills" className="skills-section">
+        <section
+            id="skills"
+            className="skills-section"
+        >
 
             {/* SECTION HEADING */}
+
             <div className="skills-heading">
 
                 <h2>My Technical Skills</h2>
@@ -70,47 +181,88 @@ function Skills() {
 
             </div>
 
+            {/* LOADING MESSAGE */}
+
+            {loading && (
+
+                <p role="status">
+                    Loading skills...
+                </p>
+
+            )}
+
+            {/* ERROR MESSAGE */}
+
+            {!loading && error && (
+
+                <p role="alert">
+                    {error}
+                </p>
+
+            )}
+
             {/* SKILLS CONTAINER */}
-            <div className="skills-container">
 
-                {/* Loop through skills array */}
-                {skills.map((skill) => (
+            {!loading && !error && (
 
-                    // INDIVIDUAL SKILL CARD
-                    <div
-                        className="skills-card"
-                        key={skill.id}
-                    >
+                <div className="skills-container">
 
-                        {/* Skill Category */}
-                        <h3>{skill.category}</h3>
+                    {/* EMPTY STATE */}
 
-                        {/* TECHNOLOGIES */}
-                        <div className="skills-list">
+                    {categories.length === 0 && (
 
-                            {/* Loop through technologies */}
-                            {skill.technologies.map((technology) => (
+                        <p>
+                            No skills available yet.
+                        </p>
 
-                                <span
-                                    className="skill-badge"
-                                    key={technology}
-                                >
-                                    {technology}
-                                </span>
+                    )}
 
-                            ))}
+                    {/* SKILL CATEGORY CARDS */}
+
+                    {categories.map((category) => (
+
+                        <div
+                            className="skills-card"
+                            key={category}
+                        >
+
+                            {/* CATEGORY TITLE */}
+
+                            <h3>
+                                {category}
+                            </h3>
+
+                            {/* TECHNOLOGIES */}
+
+                            <div className="skills-list">
+
+                                {groupedSkills[category].map(
+                                    (skill) => (
+
+                                        <span
+                                            className="skill-badge"
+                                            key={skill.id}
+                                        >
+                                            {skill.skill_name}
+                                        </span>
+
+                                    )
+                                )}
+
+                            </div>
 
                         </div>
 
-                    </div>
+                    ))}
 
-                ))}
+                </div>
 
-            </div>
+            )}
 
         </section>
+
     );
+
 }
 
-// Export Skills component
 export default Skills;

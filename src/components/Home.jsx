@@ -1,66 +1,81 @@
-// Import Home CSS
 import "./Home.css";
 
-// Home Component
+import {
+  usePortfolioProfile,
+  usePortfolioCV,
+  getProfileImageUrl,
+} from "../hooks/usePortfolioData";
+
 function Home() {
-    return (
-        <section id="home" className="home-section">
+  const profile = usePortfolioProfile();
+  const cv = usePortfolioCV();
 
-            {/* LEFT SIDE: INTRODUCTION */}
-            <div className="home-info">
+  return (
+    <section id="home" className="home-section">
 
-                <h1 className="home-name">
-                    Deus Makoye
-                </h1>
+      {/* LEFT SIDE: INTRODUCTION */}
+      <div className="home-info">
 
-                <h2 className="home-title">
-                    Full Stack Developer
-                </h2>
+        {/* NAME */}
+        <h1 className="home-name">
+          {profile.full_name}
+        </h1>
 
-                <p className="home-description">
-                    I am a Full Stack Developer specializing in
-                    building modern, responsive, and user-friendly
-                    web applications.
+        {/* PROFESSIONAL TITLE */}
+        <h2 className="home-title">
+          {profile.professional_title}
+        </h2>
 
-                    I develop frontend interfaces using React,
-                    JavaScript, HTML, and CSS, and backend
-                    systems using PHP and Laravel.
-                </p>
+        {/* INTRODUCTION */}
+        <p
+          className="home-description"
+          style={{ whiteSpace: "pre-line" }}
+        >
+          {profile.introduction}
+        </p>
 
-                {/* ACTION BUTTONS */}
-                <div className="home-buttons">
+        {/* ACTION BUTTONS */}
+        <div className="home-buttons">
 
-                    <a
-                        href="#projects"
-                        className="home-project-button"
-                    >
-                        View Projects
-                    </a>
+          <a
+            href="#projects"
+            className="home-project-button"
+          >
+            View Projects
+          </a>
 
-                    <a
-                        href="/cv.pdf"
-                        download="Deus_Makoye_CV.pdf"
-                        className="home-cv-button"
-                    >
-                        Download CV
-                    </a>
+          <a
+            href={cv.url}
+            download={cv.download ? "Deus_Makoye_CV.pdf" : undefined}
+            target={cv.download ? undefined : "_blank"}
+            rel={cv.download ? undefined : "noopener noreferrer"}
+            className="home-cv-button"
+          >
+            Download CV
+          </a>
 
-                </div>
+        </div>
+      </div>
 
-            </div>
+      {/* RIGHT SIDE: PROFILE IMAGE */}
+      <div className="home-image">
 
-            {/* RIGHT SIDE: PROFILE IMAGE */}
-            <div className="home-image">
+        <img
+          src={getProfileImageUrl(profile.image_path)}
+          alt={profile.full_name}
+          onError={(event) => {
+            const image = event.currentTarget;
 
-                <img
-                    src="/images/profile.jpg"
-                    alt="Deus Makoye"
-                />
+            if (!image.src.endsWith("/images/profile.png")) {
+              image.src = "/images/profile.png";
+            }
+          }}
+        />
 
-            </div>
+      </div>
 
-        </section>
-    );
+    </section>
+  );
 }
 
 export default Home;

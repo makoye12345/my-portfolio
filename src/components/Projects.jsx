@@ -1,78 +1,135 @@
-// Import Projects CSS
+import { useEffect, useState } from "react";
+
+import { supabase } from "../lib/supabase";
+
 import "./Projects.css";
 
-// Create Projects component
+// Existing project images
+const localImages = {
+    "E-Library Management System":
+        "/images/elibrary.png",
+
+    "E-Learning Management System":
+        "/images/elearning.png",
+
+    "Sales and Inventory Management System":
+        "/images/inventory.png"
+};
+
+const placeholderImage =
+    "/images/project-placeholder.svg";
+
 function Projects() {
 
-    // Store project information in an array
-    const projects = [
-        {
-            id: 1,
-            title: "E-Library Management System",
+    // Projects retrieved from Supabase
+    const [projects, setProjects] = useState([]);
 
-            description:
-                "A web-based system for managing book inventory, " +
-                "borrowing activities, and user profiles.",
+    // Loading and error states
+    const [loading, setLoading] = useState(true);
 
-            technologies: [
-                "Laravel",
-                "PHP",
-                "HTML",
-                "CSS",
-                "JavaScript",
-                "MySQL"
-            ],
+    const [error, setError] = useState("");
 
-            image: "/images/elibrary.png",
+    // =====================================
+    // FETCH PROJECTS FROM SUPABASE
+    // =====================================
 
-            // Project demonstration video
-            demo: "https://youtu.be/kzYYdbxwXKw"
-        },
+    useEffect(() => {
 
-        {
-            id: 2,
-            title: "E-Learning Management System",
+        let active = true;
 
-            description:
-                "An e-learning management system featuring " +
-                "school management, scheduling, user " +
-                "authentication, and cart functionality.",
+        async function loadProjects() {
 
-            technologies: [
-                "Laravel",
-                "PHP",
-                "HTML",
-                "CSS",
-                "JavaScript"
-            ],
+            try {
 
-            image: "/images/elearning.png",
+                setLoading(true);
 
-            // No demo link provided yet
-            demo: ""
-        },
+                const {
+                    data,
+                    error: fetchError
+                } = await supabase
+                    .from("portfolio_projects")
+                    .select(
+                        "id, title, description, technologies, image_path, github_url, demo_url, status, sort_order"
+                    )
+                    .order("sort_order", {
+                        ascending: true
+                    })
+                    .order("id", {
+                        ascending: true
+                    });
 
-        {
-            id: 3,
-            title: "Sales and Inventory Management System",
+                if (fetchError) {
+                    throw fetchError;
+                }
 
-            description:
-                "A web-based system designed to track stock " +
-                "levels, sales reports, and product records.",
+                if (active) {
+                    setProjects(data || []);
+                }
 
-            technologies: [],
+            } catch (err) {
 
-            image: "/images/inventory.png",
+                console.error(
+                    "Failed to load projects:",
+                    err
+                );
 
-            // No demo link provided yet
-            demo: ""
+                if (active) {
+                    setError(
+                        "Unable to load projects. Please try again."
+                    );
+                }
+
+            } finally {
+
+                if (active) {
+                    setLoading(false);
+                }
+
+            }
+
         }
-    ];
+
+        loadProjects();
+
+        return () => {
+            active = false;
+        };
+
+    }, []);
+
+    // =====================================
+    // GET PROJECT IMAGE
+    // =====================================
+
+    function getProjectImage(project) {
+
+        // Image uploaded through Admin Dashboard
+        if (project.image_path) {
+
+            const { data } = supabase.storage
+                .from("portfolio-projects")
+                .getPublicUrl(project.image_path);
+
+            return data.publicUrl;
+        }
+
+        // Existing local image
+        return (
+            localImages[project.title] ||
+            placeholderImage
+        );
+    }
+
+    // =====================================
+    // PROJECTS INTERFACE
+    // =====================================
 
     return (
 
-        // PROJECTS SECTION
-        <section id="projects" className="projects-section">
+        <section
+            id="projects"
+            className="projects-section"
+        >
 
             {/* SECTION HEADING */}
             <div className="projects-heading">
@@ -86,81 +143,138 @@ function Projects() {
 
             </div>
 
+            {/* LOADING */}
+            {loading && (
+                <p role="status">
+                    Loading projects...
+                </p>
+            )}
+
+            {/* ERROR */}
+            {!loading && error && (
+                <p role="alert">
+                    {error}
+                </p>
+            )}
+
             {/* PROJECTS CONTAINER */}
-            <div className="projects-container">
+            {!loading && !error && (
 
-                {/* Loop through projects array */}
-                {projects.map((project) => (
+                <div className="projects-container">
 
-                    // INDIVIDUAL PROJECT CARD
-                    <div
-                        className="project-card"
-                        key={project.id}
-                    >
+                    {projects.length === 0 && (
+                        <p>
+                            No projects available yet.
+                        </p>
+                    )}
 
-                        {/* PROJECT IMAGE */}
-                        <div className="project-image">
+                    {projects.map((project) => (
 
-                            <img
-                                src={project.image}
-                                alt={project.title}
-                                onError={(event) => {
-                                    event.currentTarget.src =
-                                        "/images/project-placeholder.svg";
-                                }}
-                            />
+                        <div
+                            className="project-card"
+                            key={project.id}
+                        >
 
-                        </div>
+                            {/* PROJECT IMAGE */}
+                            <div className="project-image">
 
-                        {/* PROJECT INFORMATION */}
-                        <div className="project-info">
+                                <img
+                                    src={getProjectImage(project)}
+                                    alt={project.title}
+                                    onError={(event) => {
 
-                            {/* Project Title */}
-                            <h3>{project.title}</h3>
+                                        const img =
+                                            event.currentTarget;
 
-                            {/* Project Description */}
-                            <p>{project.description}</p>
+                                        if (
+                                            !img.src.endsWith(
+                                                placeholderImage
+                                            )
+                                        ) {
+                                            img.src =
+                                                placeholderImage;
+                                        }
 
-                            {/* TECHNOLOGIES */}
-                            <div className="project-technologies">
+                                    }}
+                                />
 
-                                {project.technologies.map(
-                                    (technology) => (
+                            </div>
 
-                                        <span key={technology}>
-                                            {technology}
-                                        </span>
+                            {/* PROJECT INFORMATION */}
+                            <div className="project-info">
 
-                                    )
+                                {/* TITLE */}
+                                <h3>
+                                    {project.title}
+                                </h3>
+
+                                {/* DESCRIPTION */}
+                                <p>
+                                    {project.description}
+                                </p>
+
+                                {/* TECHNOLOGIES */}
+                                <div className="project-technologies">
+
+                                    {(project.technologies || [])
+                                        .map((technology) => (
+
+                                            <span key={technology}>
+                                                {technology}
+                                            </span>
+
+                                        ))}
+
+                                </div>
+
+                                {/* PROJECT STATUS */}
+                                {project.status === "Ongoing" && (
+                                    <p>
+                                        Status: Ongoing
+                                    </p>
+                                )}
+
+                                {/* DEMO LINK */}
+                                {project.demo_url && (
+
+                                    <a
+                                        href={project.demo_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="project-button"
+                                    >
+                                        View Demo
+                                    </a>
+
+                                )}
+
+                                {/* GITHUB LINK */}
+                                {project.github_url && (
+
+                                    <a
+                                        href={project.github_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="project-button"
+                                    >
+                                        GitHub
+                                    </a>
+
                                 )}
 
                             </div>
 
-                            {/* PROJECT DEMO LINK */}
-                            {project.demo && (
-
-                                <a
-                                    href={project.demo}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="project-button"
-                                >
-                                    View Demo
-                                </a>
-
-                            )}
-
                         </div>
 
-                    </div>
+                    ))}
 
-                ))}
+                </div>
 
-            </div>
+            )}
 
         </section>
+
     );
 }
 
-// Export Projects component
 export default Projects;

@@ -1,131 +1,147 @@
-// Import Sidebar styling
 import "./Sidebar.css";
+
 import {
-    FaGithub,
-    FaLinkedinIn,
-    FaWhatsapp,
-    FaEnvelope
+  FaGithub,
+  FaLinkedinIn,
+  FaWhatsapp,
+  FaEnvelope,
 } from "react-icons/fa";
 
-// Create Sidebar component
+import {
+  usePortfolioProfile,
+  usePortfolioContact,
+  usePortfolioCV,
+  getProfileImageUrl,
+} from "../hooks/usePortfolioData";
+
 function Sidebar() {
+  const profile = usePortfolioProfile();
+  const contact = usePortfolioContact();
+  const cv = usePortfolioCV();
 
-    // Store navigation links in an array
-    const menuItems = [
-        { id: 1, name: "Home", link: "#home", icon: "⌂" },
-        { id: 2, name: "About Me", link: "#about", icon: "◉" },
-        { id: 3, name: "My Skills", link: "#skills", icon: "⚙" },
-        { id: 4, name: "My Projects", link: "#projects", icon: "▣" },
-        { id: 5, name: "Experience", link: "#experience", icon: "★" },
-        { id: 6, name: "Contact", link: "#contact", icon: "✉" }
-    ];
+  const whatsappNumber = contact.whatsapp_number.replace(/\D/g, "");
 
-    return (
-        <aside className="portfolio-sidebar">
+  const menuItems = [
+    { id: 1, name: "Home", link: "#home", icon: "⌂" },
+    { id: 2, name: "About Me", link: "#about", icon: "◉" },
+    { id: 3, name: "My Skills", link: "#skills", icon: "⚙" },
+    { id: 4, name: "My Projects", link: "#projects", icon: "▣" },
+    { id: 5, name: "Experience", link: "#experience", icon: "★" },
+    { id: 6, name: "Contact", link: "#contact", icon: "✉" },
+  ];
 
-            {/* PROFILE SECTION */}
-            <div className="sidebar-profile">
+  return (
+    <aside className="portfolio-sidebar">
 
-                {/* Profile picture */}
-                <img
-                    src="images/profile.png"
-                    alt="Deus Makoye"
-                    className="sidebar-profile-image"
-                />
+      {/* PROFILE SECTION */}
+      <div className="sidebar-profile">
 
-                {/* Developer name */}
-                <h2>Deus Makoye</h2>
+        <img
+          src={getProfileImageUrl(profile.image_path)}
+          alt={profile.full_name}
+          className="sidebar-profile-image"
+          onError={(event) => {
+            const image = event.currentTarget;
 
-                {/* Professional title */}
-                <p>Full Stack Developer</p>
+            if (!image.src.endsWith("/images/profile.png")) {
+              image.src = "/images/profile.png";
+            }
+          }}
+        />
 
-            </div>
+        <h2>{profile.full_name}</h2>
 
-           {/* SOCIAL MEDIA ICONS */}
-<div className="sidebar-social">
+        <p>{profile.professional_title}</p>
 
-    {/* GitHub */}
-    <a
-        href="https://github.com/makoye12345"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="GitHub"
-    >
-        <FaGithub />
-    </a>
+      </div>
 
-    {/* LinkedIn */}
-    <a
-        href="https://www.linkedin.com/in/deus-makoye972310288"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="LinkedIn"
-    >
-        <FaLinkedinIn />
-    </a>
+      {/* SOCIAL MEDIA ICONS */}
+      <div className="sidebar-social">
 
-    {/* WhatsApp */}
-    <a
-        href="https://wa.me/255612470595"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="WhatsApp"
-    >
-        <FaWhatsapp />
-    </a>
+        {contact.github_url && (
+          <a
+            href={contact.github_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+          >
+            <FaGithub />
+          </a>
+        )}
 
-    {/* Email */}
-    <a
-        href="mailto:makoyedeus8@gmail.com"
-        aria-label="Email"
-    >
-        <FaEnvelope />
-    </a>
+        {contact.linkedin_url && (
+          <a
+            href={contact.linkedin_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+          >
+            <FaLinkedinIn />
+          </a>
+        )}
 
-</div>
+        {whatsappNumber && (
+          <a
+            href={`https://wa.me/${whatsappNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+          >
+            <FaWhatsapp />
+          </a>
+        )}
 
-            {/* NAVIGATION MENU */}
-            <nav className="sidebar-navigation">
+        {contact.email && (
+          <a
+            href={`mailto:${contact.email}`}
+            aria-label="Email"
+          >
+            <FaEnvelope />
+          </a>
+        )}
 
-                {/* Display menu items using map() */}
-                {menuItems.map((item) => (
+      </div>
 
-                    <a
-                        key={item.id}
-                        href={item.link}
-                        className="sidebar-nav-link"
-                    >
+      {/* NAVIGATION MENU */}
+      <nav className="sidebar-navigation">
 
-                        {/* Menu icon */}
-                        <span className="sidebar-nav-icon">
-                            {item.icon}
-                        </span>
+        {menuItems.map((item) => (
 
-                        {/* Menu name */}
-                        <span>{item.name}</span>
+          <a
+            key={item.id}
+            href={item.link}
+            className="sidebar-nav-link"
+          >
 
-                    </a>
+            <span className="sidebar-nav-icon">
+              {item.icon}
+            </span>
 
-                ))}
+            <span>{item.name}</span>
 
-            </nav>
-            
+          </a>
 
-            {/* DOWNLOAD CV */}
-            <div className="sidebar-bottom">
+        ))}
 
-                <a
-                    href="/cv.pdf"
-                    download="Deus_Makoye_CV.pdf"
-                    className="sidebar-download"
-                >
-                    ↓ Download CV
-                </a>
+      </nav>
 
-            </div>
+      {/* DOWNLOAD CV */}
+      <div className="sidebar-bottom">
 
-        </aside>
-    );
+        <a
+          href={cv.url}
+          download={cv.download ? "Deus_Makoye_CV.pdf" : undefined}
+          target={cv.download ? undefined : "_blank"}
+          rel={cv.download ? undefined : "noopener noreferrer"}
+          className="sidebar-download"
+        >
+          ↓ Download CV
+        </a>
+
+      </div>
+
+    </aside>
+  );
 }
 
 export default Sidebar;

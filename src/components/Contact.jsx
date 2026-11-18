@@ -1,91 +1,119 @@
 import "./Contact.css";
 
+import { usePortfolioContact } from "../hooks/usePortfolioData";
+
 function Contact() {
+  const contact = usePortfolioContact();
 
-    // Contact information
-    const contacts = [
-        {
-            id: 1,
-            icon: "✉",
-            title: "Email",
-            value: "makoyedeus8@gmail.com",
-            link: "mailto:makoyedeus8@gmail.com"
-        },
-        {
-            id: 2,
-            icon: "☎",
-            title: "Phone",
-            value: "+255612470595",
-            link: "tel:+255612470595"
-        },
-        {
-            id: 3,
-            icon: "◉",
-            title: "GitHub",
-            value: "makoye12345",
-            link: "https://github.com/makoye12345"
-        },
-        {
-            id: 4,
-            icon: "in",
-            title: "LinkedIn",
-            value: "Deus Makoye",
-            link: "https://www.linkedin.com/in/deus-makoye972310288"
-        }
-    ];
+  const contacts = [
+    {
+      id: 1,
+      icon: "✉",
+      title: "Email",
+      value: contact.email,
+      link: `mailto:${contact.email}`,
+    },
+    {
+      id: 2,
+      icon: "☎",
+      title: "Phone",
+      value: contact.phone,
+      link: `tel:${contact.phone.replace(/[^\d+]/g, "")}`,
+    },
+    {
+      id: 3,
+      icon: "◉",
+      title: "GitHub",
+      value: contact.github_url
+        ? contact.github_url.replace(/^https?:\/\/(www\.)?/, "")
+        : "",
+      link: contact.github_url,
+    },
+    {
+      id: 4,
+      icon: "in",
+      title: "LinkedIn",
+      value: contact.linkedin_url
+        ? "View LinkedIn Profile"
+        : "",
+      link: contact.linkedin_url,
+    },
+    {
+      id: 5,
+      icon: "⌖",
+      title: "Location",
+      value: contact.location,
+      link: "",
+    },
+  ];
 
-    return (
-        <section id="contact" className="contact-section">
+  return (
+    <section id="contact" className="contact-section">
 
-            {/* Heading */}
-            <div className="contact-heading">
-                <h2>Contact Me</h2>
-                <p>
-                    Interested in working together?
-                    Feel free to get in touch.
-                </p>
+      {/* HEADING */}
+      <div className="contact-heading">
+
+        <h2>Contact Me</h2>
+
+        <p>
+          Interested in working together?
+          Feel free to get in touch.
+        </p>
+
+      </div>
+
+      {/* CONTACT CARDS */}
+      <div className="contact-container">
+
+        {contacts.map((item) => (
+
+          <div
+            className="contact-card"
+            key={item.id}
+          >
+
+            <span className="contact-icon">
+              {item.icon}
+            </span>
+
+            <div>
+
+              <h3>{item.title}</h3>
+
+              {item.link ? (
+
+                <a
+                  href={item.link}
+                  target={
+                    item.link.startsWith("https://")
+                      ? "_blank"
+                      : undefined
+                  }
+                  rel={
+                    item.link.startsWith("https://")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
+                >
+                  {item.value}
+                </a>
+
+              ) : (
+
+                <span>{item.value}</span>
+
+              )}
+
             </div>
 
-            {/* Contact information */}
-            <div className="contact-container">
+          </div>
 
-                {contacts.map((contact) => (
+        ))}
 
-                    <div className="contact-card" key={contact.id}>
+      </div>
 
-                        {/* Contact icon */}
-                        <span className="contact-icon">
-                            {contact.icon}
-                        </span>
-
-                        <div>
-                            <h3>{contact.title}</h3>
-
-                            <a
-                                href={contact.link}
-                                target={
-                                    contact.link.startsWith("https")
-                                        ? "_blank"
-                                        : undefined
-                                }
-                                rel={
-                                    contact.link.startsWith("https")
-                                        ? "noopener noreferrer"
-                                        : undefined
-                                }
-                            >
-                                {contact.value}
-                            </a>
-                        </div>
-
-                    </div>
-
-                ))}
-
-            </div>
-
-        </section>
-    );
+    </section>
+  );
 }
 
 export default Contact;

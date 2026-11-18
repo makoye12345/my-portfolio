@@ -1,119 +1,328 @@
+// ==========================================
+// REACT HOOKS
+// ==========================================
+
+import { useEffect, useState } from "react";
+
+// Supabase connection
+import { supabase } from "../lib/supabase";
+
+// Existing CSS
 import "./Experience.css";
+
+// ==========================================
+// EXPERIENCE COMPONENT
+// ==========================================
 
 function Experience() {
 
-    // EDUCATION DATA
-    const education = [
-        {
-            id: 1,
-            institution: "St. John's University of Tanzania",
-            qualification: "Bachelor of Science in Information Technology",
-            period: "October 2022 – August 2025",
-            location: "Dodoma, Tanzania"
-        }
-    ];
+    // ==========================================
+    // STATE
+    // ==========================================
 
-    // PROFESSIONAL EXPERIENCE DATA
-    const experiences = [
-        {
-            id: 1,
-            organization: "Wipa Education Center",
-            position: "ICT Teaching and Computer Maintenance",
-            period: "Through 2026",
-            location: "Morogoro, Tanzania",
-            duties: [
-                "Teaching computer science.",
-                "Repairing and maintaining computers.",
-                "Designing announcements using Adobe Photoshop."
-            ]
-        },
-        {
-            id: 2,
-            organization: "St. John's University of Tanzania",
-            position: "IT Support – Field Practical Training",
-            period: "April – July 2024",
-            location: "Dodoma, Tanzania",
-            duties: [
-                "Assisted with computer troubleshooting.",
-                "Supported student and staff digital records.",
-                "Participated in document digitization and system maintenance."
-            ]
+    const [education, setEducation] = useState([]);
+
+    const [experiences, setExperiences] = useState([]);
+
+    const [loading, setLoading] = useState(true);
+
+    const [error, setError] = useState("");
+
+    // ==========================================
+    // LOAD EDUCATION AND EXPERIENCE
+    // ==========================================
+
+    useEffect(() => {
+
+        let active = true;
+
+        async function loadData() {
+
+            try {
+
+                setLoading(true);
+                setError("");
+
+                // Fetch education and experience together
+                const [
+                    educationResponse,
+                    experienceResponse
+                ] = await Promise.all([
+
+                    supabase
+                        .from("portfolio_education")
+                        .select(
+                            "id, institution, qualification, period, location, sort_order"
+                        )
+                        .order("sort_order", {
+                            ascending: true
+                        })
+                        .order("id", {
+                            ascending: true
+                        }),
+
+                    supabase
+                        .from("portfolio_experience")
+                        .select(
+                            "id, organization, position, period, location, duties, sort_order"
+                        )
+                        .order("sort_order", {
+                            ascending: true
+                        })
+                        .order("id", {
+                            ascending: true
+                        })
+
+                ]);
+
+                // Check errors
+                if (educationResponse.error) {
+                    throw educationResponse.error;
+                }
+
+                if (experienceResponse.error) {
+                    throw experienceResponse.error;
+                }
+
+                if (active) {
+
+                    setEducation(
+                        educationResponse.data || []
+                    );
+
+                    setExperiences(
+                        experienceResponse.data || []
+                    );
+
+                }
+
+            } catch (err) {
+
+                console.error(
+                    "Failed to load education and experience:",
+                    err
+                );
+
+                if (active) {
+
+                    setError(
+                        "Unable to load education and experience. Please try again."
+                    );
+
+                }
+
+            } finally {
+
+                if (active) {
+                    setLoading(false);
+                }
+
+            }
+
         }
-    ];
+
+        loadData();
+
+        return () => {
+            active = false;
+        };
+
+    }, []);
+
+    // ==========================================
+    // COMPONENT INTERFACE
+    // ==========================================
 
     return (
-        <section id="experience" className="experience-section">
+
+        <section
+            id="experience"
+            className="experience-section"
+        >
 
             {/* MAIN HEADING */}
+
             <div className="experience-heading">
-                <h2>Education & Experience</h2>
-                <p>My academic and professional background</p>
+
+                <h2>
+                    Education & Experience
+                </h2>
+
+                <p>
+                    My academic and professional background
+                </p>
+
             </div>
 
-            {/* EDUCATION */}
-            <div className="education-area">
-                <h3>🎓 Education</h3>
+            {/* LOADING MESSAGE */}
 
-                {education.map((item) => (
-                    <div className="education-card" key={item.id}>
-                        <span className="experience-date">
-                            {item.period}
-                        </span>
+            {loading && (
 
-                        <h4>{item.qualification}</h4>
-                        <h5>{item.institution}</h5>
-                        <p>{item.location}</p>
+                <p role="status">
+                    Loading education and experience...
+                </p>
+
+            )}
+
+            {/* ERROR MESSAGE */}
+
+            {!loading && error && (
+
+                <p role="alert">
+                    {error}
+                </p>
+
+            )}
+
+            {/* EDUCATION AND EXPERIENCE */}
+
+            {!loading && !error && (
+
+                <>
+
+                    {/* ======================================
+                        EDUCATION SECTION
+                    ====================================== */}
+
+                    <div className="education-area">
+
+                        <h3>🎓 Education</h3>
+
+                        {education.length === 0 ? (
+
+                            <p>
+                                No education records available.
+                            </p>
+
+                        ) : (
+
+                            education.map((item) => (
+
+                                <div
+                                    className="education-card"
+                                    key={item.id}
+                                >
+
+                                    {/* Study Period */}
+
+                                    <span className="experience-date">
+                                        {item.period}
+                                    </span>
+
+                                    {/* Qualification */}
+
+                                    <h4>
+                                        {item.qualification}
+                                    </h4>
+
+                                    {/* Institution */}
+
+                                    <h5>
+                                        {item.institution}
+                                    </h5>
+
+                                    {/* Location */}
+
+                                    <p>
+                                        {item.location}
+                                    </p>
+
+                                </div>
+
+                            ))
+
+                        )}
+
                     </div>
-                ))}
-            </div>
 
-            {/* PROFESSIONAL EXPERIENCE */}
-            <div className="professional-area">
+                    {/* ======================================
+                        PROFESSIONAL EXPERIENCE SECTION
+                    ====================================== */}
 
-                <h3>💼 Professional Experience</h3>
+                    <div className="professional-area">
 
-                {/* TWO CARDS SIDE BY SIDE */}
-                <div className="professional-grid">
+                        <h3>
+                            💼 Professional Experience
+                        </h3>
 
-                    {experiences.map((item) => (
+                        {/* Two-column card layout */}
 
-                        <div
-                            className="professional-card"
-                            key={item.id}
-                        >
+                        <div className="professional-grid">
 
-                            {/* Organization */}
-                            <h4>{item.organization}</h4>
+                            {experiences.length === 0 ? (
 
-                            {/* Date */}
-                            <span className="experience-date">
-                                {item.period}
-                            </span>
+                                <p>
+                                    No professional experience
+                                    records available.
+                                </p>
 
-                            {/* Position */}
-                            <h5>{item.position}</h5>
+                            ) : (
 
-                            {/* Location */}
-                            <p>{item.location}</p>
+                                experiences.map((item) => (
 
-                            {/* Responsibilities */}
-                            <ul>
-                                {item.duties.map((duty, index) => (
-                                    <li key={index}>
-                                        {duty}
-                                    </li>
-                                ))}
-                            </ul>
+                                    <div
+                                        className="professional-card"
+                                        key={item.id}
+                                    >
+
+                                        {/* Organization */}
+
+                                        <h4>
+                                            {item.organization}
+                                        </h4>
+
+                                        {/* Period */}
+
+                                        <span className="experience-date">
+                                            {item.period}
+                                        </span>
+
+                                        {/* Job Title */}
+
+                                        <h5>
+                                            {item.position}
+                                        </h5>
+
+                                        {/* Location */}
+
+                                        <p>
+                                            {item.location}
+                                        </p>
+
+                                        {/* Responsibilities */}
+
+                                        <ul>
+
+                                            {(item.duties || []).map(
+                                                (duty, index) => (
+
+                                                    <li key={index}>
+                                                        {duty}
+                                                    </li>
+
+                                                )
+                                            )}
+
+                                        </ul>
+
+                                    </div>
+
+                                ))
+
+                            )}
 
                         </div>
 
-                    ))}
+                    </div>
 
-                </div>
-            </div>
+                </>
+
+            )}
 
         </section>
+
     );
+
 }
 
 export default Experience;

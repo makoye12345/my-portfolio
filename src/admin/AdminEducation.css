@@ -1,0 +1,260 @@
+/* =====================================
+   EDUCATION MANAGEMENT
+===================================== */
+
+.admin-education-container {
+    width: 100%;
+    padding: 28px;
+    background: #FFFBF3;
+    border: 1px solid #E7DED1;
+    border-radius: 12px;
+    color: #3A2718;
+}
+
+/* HEADING */
+
+.admin-education-heading {
+    margin-bottom: 28px;
+}
+
+.admin-education-heading h2 {
+    font-size: 24px;
+    color: #355F5C;
+    margin-bottom: 10px;
+}
+
+.admin-education-heading p {
+    font-size: 14px;
+    color: #8A7D6B;
+}
+
+/* FORM */
+
+.admin-education-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    padding: 24px;
+    margin-bottom: 28px;
+
+    background: #F6F1E8;
+    border: 1px solid #E7DED1;
+    border-radius: 10px;
+}
+
+.admin-education-form h3 {
+    font-size: 19px;
+    color: #355F5C;
+}
+
+/* FORM FIELDS */
+
+.admin-education-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-education-field label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.admin-education-field input {
+    width: 100%;
+    padding: 13px 14px;
+
+    background: #FFFFFF;
+    color: #3A2718;
+
+    border: 1px solid #D9D9D9;
+    border-radius: 7px;
+
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.admin-education-field input:focus {
+    outline: none;
+    border-color: #355F5C;
+    box-shadow: 0 0 0 3px rgba(53, 95, 92, 0.12);
+}
+
+/* FORM BUTTONS */
+
+.admin-education-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.admin-education-save,
+.admin-education-cancel,
+.admin-education-edit,
+.admin-education-delete {
+    padding: 11px 17px;
+    border: none;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.admin-education-save {
+    background: #355F5C;
+    color: #FFFFFF;
+}
+
+.admin-education-save:hover {
+    background: #C79A4B;
+    color: #3A2718;
+}
+
+.admin-education-cancel {
+    background: #E5E7EB;
+    color: #333333;
+}
+
+/* SAVED EDUCATION */
+
+.admin-education-list-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.admin-education-list-heading h3 {
+    color: #355F5C;
+    font-size: 19px;
+}
+
+.admin-education-list-heading span {
+    font-size: 13px;
+    color: #8A7D6B;
+}
+
+/* EDUCATION CARDS */
+
+.admin-education-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.admin-education-card {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    padding: 24px;
+
+    background: #F8FAF9;
+    border: 1px solid #E5EBE8;
+    border-top: 4px solid #C79A4B;
+    border-radius: 10px;
+}
+
+.admin-education-card h4 {
+    font-size: 18px;
+    color: #355F5C;
+    margin-bottom: 12px;
+}
+
+.admin-education-card h5 {
+    font-size: 15px;
+    color: #3A2718;
+    margin: 12px 0;
+}
+
+.admin-education-card p {
+    font-size: 13px;
+    color: #8A7D6B;
+    margin-bottom: 20px;
+}
+
+.admin-education-date {
+    align-self: flex-start;
+    display: inline-block;
+    padding: 7px 12px;
+
+    background: #E8F0EC;
+    color: #355F5C;
+
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+/* CARD ACTIONS */
+
+.admin-education-card-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: auto;
+}
+
+.admin-education-edit {
+    background: #E8F0EC;
+    color: #355F5C;
+}
+
+.admin-education-delete {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.admin-education-edit:hover {
+    background: #D6E7DE;
+}
+
+.admin-education-delete:hover {
+    background: #FECACA;
+}
+
+.admin-education-save:disabled,
+.admin-education-cancel:disabled,
+.admin-education-delete:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* FEEDBACK */
+
+.admin-education-error,
+.admin-education-success {
+    padding: 14px;
+    margin-bottom: 20px;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.admin-education-error {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.admin-education-success {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 850px) {
+    .admin-education-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-education-container {
+        padding: 18px;
+    }
+
+    .admin-education-form {
+        padding: 17px;
+    }
+}

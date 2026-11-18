@@ -1,0 +1,232 @@
+/* =====================================
+   PROFILE MANAGEMENT
+===================================== */
+
+.admin-profile-container {
+
+    max-width: 850px;
+
+    width: 100%;
+
+    padding: 30px;
+
+    background: #FFFBF3;
+
+    border: 1px solid #E7DED1;
+
+    border-radius: 12px;
+
+    color: #3A2718;
+
+}
+
+
+/* =====================================
+   PAGE HEADING
+===================================== */
+
+.admin-profile-heading {
+    margin-bottom: 30px;
+}
+
+.admin-profile-heading h2 {
+
+    font-size: 24px;
+
+    color: #355F5C;
+
+    margin-bottom: 10px;
+
+}
+
+.admin-profile-heading p {
+
+    font-size: 14px;
+
+    color: #8A7D6B;
+
+}
+
+
+/* =====================================
+   FORM
+===================================== */
+
+.admin-profile-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 22px;
+
+}
+
+
+/* =====================================
+   FORM FIELDS
+===================================== */
+
+.admin-profile-field {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+
+}
+
+.admin-profile-field label {
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #3A2718;
+
+}
+
+.admin-profile-field input,
+.admin-profile-field textarea {
+
+    width: 100%;
+
+    padding: 13px 15px;
+
+    background: #FFFFFF;
+
+    border: 1px solid #D9D9D9;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+    color: #3A2718;
+
+    font-family: inherit;
+
+    outline: none;
+
+}
+
+.admin-profile-field input:focus,
+.admin-profile-field textarea:focus {
+
+    border-color: #355F5C;
+
+    box-shadow: 0 0 0 3px rgba(53, 95, 92, 0.12);
+
+}
+
+.admin-profile-field textarea {
+
+    resize: vertical;
+
+    min-height: 140px;
+
+}
+
+
+/* =====================================
+   SAVE BUTTON
+===================================== */
+
+.admin-profile-save {
+
+    align-self: flex-start;
+
+    padding: 13px 25px;
+
+    background: #355F5C;
+
+    color: #FFFFFF;
+
+    border: none;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+
+}
+
+.admin-profile-save:hover {
+
+    background: #C79A4B;
+
+    color: #3A2718;
+
+}
+
+.admin-profile-save:disabled {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
+}
+
+
+/* =====================================
+   SUCCESS MESSAGE
+===================================== */
+
+.admin-profile-success {
+
+    padding: 14px;
+
+    background: #DCFCE7;
+
+    color: #166534;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================
+   ERROR MESSAGE
+===================================== */
+
+.admin-profile-error {
+
+    padding: 14px;
+
+    background: #FEE2E2;
+
+    color: #991B1B;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+    .admin-profile-container {
+        padding: 20px;
+    }
+
+    .admin-profile-heading h2 {
+        font-size: 21px;
+    }
+
+    .admin-profile-save {
+        width: 100%;
+    }
+
+}
