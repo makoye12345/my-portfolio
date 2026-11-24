@@ -1,13 +1,13 @@
 import "./Home.css";
 
 import {
-  usePortfolioProfile,
+  usePortfolioProfileWithLoading,
   usePortfolioCV,
   getProfileImageUrl,
 } from "../hooks/usePortfolioData";
 
 function Home() {
-  const profile = usePortfolioProfile();
+  const { profile, loading } = usePortfolioProfileWithLoading();
   const cv = usePortfolioCV();
 
   return (
@@ -18,12 +18,12 @@ function Home() {
 
         {/* NAME */}
         <h1 className="home-name">
-          {profile.full_name}
+          {profile?.full_name}
         </h1>
 
         {/* PROFESSIONAL TITLE */}
         <h2 className="home-title">
-          {profile.professional_title}
+          {profile?.professional_title}
         </h2>
 
         {/* INTRODUCTION */}
@@ -31,7 +31,7 @@ function Home() {
           className="home-description"
           style={{ whiteSpace: "pre-line" }}
         >
-          {profile.introduction}
+          {profile?.introduction}
         </p>
 
         {/* ACTION BUTTONS */}
@@ -56,24 +56,18 @@ function Home() {
 
         </div>
       </div>
-
-      {/* RIGHT SIDE: PROFILE IMAGE */}
-      <div className="home-image">
-
-        <img
-          src={getProfileImageUrl(profile.image_path)}
-          alt={profile.full_name}
-          onError={(event) => {
-            const image = event.currentTarget;
-
-            if (!image.src.endsWith("/images/profile.png")) {
-              image.src = "/images/profile.png";
-            }
-          }}
-        />
-
-      </div>
-
+{/* RIGHT SIDE: PROFILE IMAGE */}
+<div className="home-image">
+  {!loading && profile?.image_path && (
+    <img
+      src={getProfileImageUrl(profile.image_path)}
+      alt={profile.full_name}
+      onError={(event) => {
+        event.currentTarget.style.display = "none";
+      }}
+    />
+  )}
+</div>
     </section>
   );
 }

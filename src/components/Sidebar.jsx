@@ -8,14 +8,14 @@ import {
 } from "react-icons/fa";
 
 import {
-  usePortfolioProfile,
+  usePortfolioProfileWithLoading,
   usePortfolioContact,
   usePortfolioCV,
   getProfileImageUrl,
 } from "../hooks/usePortfolioData";
 
 function Sidebar() {
-  const profile = usePortfolioProfile();
+  const { profile, loading } = usePortfolioProfileWithLoading();
   const contact = usePortfolioContact();
   const cv = usePortfolioCV();
 
@@ -35,23 +35,20 @@ function Sidebar() {
 
       {/* PROFILE SECTION */}
       <div className="sidebar-profile">
+{!loading && profile?.image_path && (
+  <img
+    src={getProfileImageUrl(profile.image_path)}
+    alt={profile.full_name}
+    className="sidebar-profile-image"
+    onError={(event) => {
+      event.currentTarget.style.display = "none";
+    }}
+  />
+)}
 
-        <img
-          src={getProfileImageUrl(profile.image_path)}
-          alt={profile.full_name}
-          className="sidebar-profile-image"
-          onError={(event) => {
-            const image = event.currentTarget;
+        <h2>{profile?.full_name}</h2>
 
-            if (!image.src.endsWith("/images/profile.png")) {
-              image.src = "/images/profile.png";
-            }
-          }}
-        />
-
-        <h2>{profile.full_name}</h2>
-
-        <p>{profile.professional_title}</p>
+        <p>{profile?.professional_title}</p>
 
       </div>
 
