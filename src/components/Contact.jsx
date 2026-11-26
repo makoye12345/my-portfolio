@@ -45,6 +45,17 @@ function Contact() {
       value: contact.location,
       link: "",
     },
+    {
+  id: 6,
+  icon: "WA",
+  title: "WhatsApp",
+  value: contact.whatsapp_number
+    ? `+${contact.whatsapp_number}`
+    : "",
+  link: contact.whatsapp_number
+    ? `https://wa.me/${contact.whatsapp_number}`
+    : "",
+},
   ];
 
   return (
@@ -115,5 +126,4 @@ function Contact() {
     </section>
   );
 }
-
 export default Contact;

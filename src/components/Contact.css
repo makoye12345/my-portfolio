@@ -92,3 +92,10 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Contact values */
+.contact-card span:not(.contact-icon) {
+    color: var(--text-color);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
